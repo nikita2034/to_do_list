@@ -1,0 +1,21 @@
+li {
+    list-style-type: none; 
+    margin-left: -30px;
+   }
+button{
+  border:none;
+  background-color:white;
+
+}   
+button:hover{
+  color:rgb(62,128,204)
+}
+.task{
+    color:black;
+    font-size: 16px;
+}
+.tasks{
+    border-radius:3px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(62,128,204,0.5);
+}

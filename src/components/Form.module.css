@@ -1,0 +1,18 @@
+body {
+    background-color:rgb(62,128,204);
+  }
+.wrong{
+  font-family: 'Times New Roman', Times,  monospace;
+  font-size: 18px;
+  color:red;
+  margin-bottom:5px;
+  margin-left:10px;
+  margin-top:-10px;
+  line-height: 25px;
+}
+.img{
+  position: relative;
+  top:70px;
+  height: 100%;
+  width: 100%;
+}
