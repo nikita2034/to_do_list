@@ -1,3 +1,4 @@
+/*Компонент Form выполняет отрисовку форм входа и регистрации. Link to осуществляет переход на страницу регистрации, если нет аккаунта или входа, если аккаунт есть. */
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import s from "./Form.module.css";
@@ -18,37 +19,45 @@ import {
 } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
 
-function Form({ title, header, handleClick, path, text, action, error,spinner}) {
+function Form({
+  title,
+  header,
+  handleClick,
+  path,
+  text,
+  action,
+  error,
+  spinner,
+}) {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-  const [showSpinner, setShowSpinner] = useState(<div>{title}</div>);
+  const [showSpinner, setShowSpinner] = useState(<div>{title}</div>); //состояние хранит заголовок кнопки, если кнопка не нажата или Spinner при нажатии для отправки данных
   const [click, setClick] = useState(0);
-  useEffect(()=>{
-    console.log(spinner);
-       setShowSpinner(<div>{title}</div>);
-  },[spinner])
 
+  //Производится остановка Spinner при появлении ошибки ввода
   useEffect(() => {
-    if(click!==0){
+    console.log(spinner);
+    setShowSpinner(<div>{title}</div>);
+  }, [spinner]);
+
+  //Производится включение Spinner при отправки данных
+  useEffect(() => {
+    if (click !== 0) {
       setShowSpinner(
-            <MDBSpinner
-              color="light"
-              style={{ width: "1.11rem", height: "1.11rem" }}
-            />
-          );
-          handleClick(email, pass);
-        }
+        <MDBSpinner
+          color="light"
+          style={{ width: "1.11rem", height: "1.11rem" }}
+        />
+      );
+      handleClick(email, pass);
+    }
   }, [click]);
   return (
     <MDBContainer className="my-5">
       <MDBCard>
         <MDBRow className="g-0">
           <MDBCol md="6 ">
-            <MDBCardImage
-              src={todolist}
-              alt="login form"
-              className={s.img}
-            />
+            <MDBCardImage src={todolist} alt="login form" className={s.img} />
           </MDBCol>
 
           <MDBCol md="6">
@@ -87,12 +96,12 @@ function Form({ title, header, handleClick, path, text, action, error,spinner}) 
               />
               <span className={s.wrong}>{error}</span>
               <MDBBtn
-                onClick={() => setClick(click+1)}
+                onClick={() => setClick(click + 1)}
                 className="mb-4 px-5"
                 color="dark"
                 size="lg"
               >
-                 {showSpinner}
+                {showSpinner}
               </MDBBtn>
               <a className="small text-muted" href="#!">
                 Forgot password?

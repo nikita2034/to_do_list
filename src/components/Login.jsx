@@ -1,3 +1,7 @@
+/*Компонент Login предназначен для авторизации пользователей. Для авторизации используется технология Firebase. 
+Функция handleLogin авторизации.Метод signInWithEmailAndPassword из firebase осуществляющая авторизацию в приложении При правильном логине и пароле, производится get запрос на получение задач пользователя из bitrix24. 
+Данные пользователя (логин, токен авторизации, id и данные полученные из bitrix24 с помощью dispatch записываюся в store, auth хранит состояние (пользователь авторизован или нет).
+Авторизация прошла успешна, происходит переход на страницу с задачами. При некорректных заполнениях полей возникают ошибки и переход на страницу с задачами не происходит.*/
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
@@ -8,10 +12,9 @@ import { useState } from "react";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [errorDescription, setErrorDescription] = useState("");
-  const [spinner, setSpinner] = useState(null);
-  let errorMessage = "";
-  
+  const [errorDescription, setErrorDescription] = useState(""); // состояние для хранения текста ошибки
+  const [spinner, setSpinner] = useState(null); // состояние для работы спинера(вкл/выкл)
+
   const handleLogin = (email, password) => {
     const auth = getAuth();
     fetch(
@@ -31,22 +34,23 @@ const Login = () => {
             );
             navigate("/tasks");
           })
+          // блок для отработки различных ошибок при авторизации
           .catch((error) => {
-            errorMessage = error.message;
-            if (errorMessage == "Firebase: Error (auth/user-not-found).") {
+            if (error.message == "Firebase: Error (auth/user-not-found).") {
               setErrorDescription(
-                "The user was not found. Check that your username and correct!");
+                "The user was not found. Check that your username and correct!"
+              );
               setSpinner(!spinner);
             }
-            if (errorMessage == "Firebase: Error (auth/internal-error).") {
+            if (error.message == "Firebase: Error (auth/internal-error).") {
               setErrorDescription("Fill in the password field!");
               setSpinner(!spinner);
             }
-            if (errorMessage == "Firebase: Error (auth/invalid-email).") {
+            if (error.message == "Firebase: Error (auth/invalid-email).") {
               setErrorDescription("Invalid email value!");
               setSpinner(!spinner);
             }
-            if (errorMessage == "Firebase: Error (auth/wrong-password).") {
+            if (error.message == "Firebase: Error (auth/wrong-password).") {
               setErrorDescription("Wrong password!");
               setSpinner(!spinner);
             }
